@@ -1,6 +1,7 @@
 import argparse
 import re
 import getpass
+from dateparser.search import search_dates
 
 
 def get_console_arguments():
@@ -10,7 +11,6 @@ def get_console_arguments():
         '-password_blacklist',
         help='enter path of a file containing password blacklist'
     )
-    # parser.add_argument('password', help='enter a password')
     args = parser.parse_args()
     return args
 
@@ -21,10 +21,14 @@ def check_all_digits(password):
 
 
 def check_case_sensitivity(password):
-    if check_all_digits(password):
-        return False
-    case_sensitivity = not(password.islower() or password.isupper())
-    return case_sensitivity
+    # if check_all_digits(password):
+    #     return False
+    # case_sensitivity = not(password.islower() or password.isupper())
+    # print(case_sensitivity)
+    lower_letter = any(letter.islower() for letter in password)
+
+
+    return True
 
 
 def check_digits(password):
@@ -51,27 +55,31 @@ def check_password_blacklist(password, blacklist_file=None):
     return True
 
 
-def check_personal_info(password):
-    pass
-
-
-def check_company_name(password):
-    pass
-
-
 def check_common_numbers(password):
-    pass
+    if re.search(r'\d{4+}', password):
+        return False
+    return True
 
 
 def check_password_length(password):
+    improvement_by_password_length = 0
     password_length = len(password)
     if password_length >= 8:
-        return True
-    return False
+        improvement_by_password_length += 1
+    if password_length >= 12:
+        improvement_by_password_length += 2
+    return improvement_by_password_length
 
 
 def check_underlines_minuses_brackets(password):
     if re.search(r'[()_-]', password):
+        return True
+    return False
+
+
+def check_date(password):
+    print(search_dates(password))
+    if not search_dates(password):
         return True
     return False
 
@@ -86,16 +94,13 @@ def get_password_strength(password, blacklist_path = None):
         password_strength += 1
     if check_password_blacklist(password, blacklist_path):
         password_strength += 1
-    if check_personal_info(password):
-        password_strength += 1
-    if check_company_name(password):
-        password_strength += 1
     if check_common_numbers(password):
-        password_strength += 1
-    if check_password_length(password):
         password_strength += 1
     if check_underlines_minuses_brackets(password):
         password_strength += 1
+    if check_date(password):
+        password_strength += 1
+    password_strength = password_strength + check_password_length(password)
     return password_strength
 
 
