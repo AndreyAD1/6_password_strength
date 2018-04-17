@@ -25,30 +25,18 @@ def check_case_sensitivity(password):
 def check_digits(password):
     if password.isdigit():
         return False
-    digit = any(symbol.isdigit() for symbol in password)
-    return digit
+    digit_in_password = any(symbol.isdigit() for symbol in password)
+    return digit_in_password
 
 
 def check_special_characters(password):
     if re.search(r'\W', password):
         return True
-
-
-def check_password_blacklist(password, blacklist_file=None):
-    if not blacklist_file:
-        return False
-    try:
-        with open(blacklist_file, 'r', encoding='utf-8') as blacklist_file:
-            blacklist = blacklist_file.read()
-    except FileNotFoundError:
-        return None
-    if password in blacklist:
-        return True
     return False
 
 
-def check_common_numbers(password):
-    if re.search(r'\d{4+}', password):
+def check_underlines_minuses_brackets(password):
+    if re.search(r'[()_-]', password):
         return True
     return False
 
@@ -63,14 +51,27 @@ def check_password_length(password):
     return improvement_by_password_length
 
 
-def check_underlines_minuses_brackets(password):
-    if re.search(r'[()_-]', password):
+def check_common_numbers(password):
+    if re.search(r'\d{4+}', password):
         return True
     return False
 
 
 def check_date(password):
     if search_dates(password):
+        return True
+    return False
+
+
+def check_password_blacklist(password, blacklist_file=None):
+    if not blacklist_file:
+        return False
+    try:
+        with open(blacklist_file, 'r', encoding='utf-8') as blacklist_file:
+            blacklist = blacklist_file.read()
+    except FileNotFoundError:
+        return None
+    if password in blacklist:
         return True
     return False
 
@@ -127,4 +128,6 @@ if __name__ == '__main__':
     if password_score is None:
         print('Can not find the file containing a password blacklist.')
     else:
-        print('Your password gets {} point(s) out of 10.'.format(password_score))
+        print(
+            'Your password gets {} point(s) out of 10.'.format(password_score)
+        )
