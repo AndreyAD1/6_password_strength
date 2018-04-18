@@ -12,7 +12,7 @@ def get_console_arguments():
         default=None,
         help='enter path of a file containing password blacklist'
     )
-    args = parser.parse_args()
+    args = console_parser.parse_args()
     return args
 
 
