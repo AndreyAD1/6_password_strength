@@ -1,12 +1,12 @@
 import argparse
 import re
 import getpass
-from dateparser.search import search_dates
+from dateutil import parser
 
 
 def get_console_arguments():
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
+    console_parser = argparse.ArgumentParser()
+    console_parser.add_argument(
         '-b',
         '-password_blacklist',
         default=None,
@@ -55,7 +55,11 @@ def check_common_numbers(password):
 
 
 def check_date(password):
-    return bool(search_dates(password))
+    try:
+        data = parser.parse(password)
+        return bool(data)
+    except ValueError:
+        return False
 
 
 def check_password_blacklist(password, blacklist):
@@ -96,7 +100,9 @@ def get_password_strength(password, blacklist):
         password,
         blacklist
     )
-    password_strength = max(1, min(10, password_strength))
+    max_score = 10
+    min_score = 1
+    password_strength = max(min_score, min(max_score, password_strength))
     return password_strength
 
 
