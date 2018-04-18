@@ -56,8 +56,8 @@ def check_common_numbers(password):
 
 def check_date(password):
     try:
-        data = parser.parse(password)
-        return bool(data)
+        date = parser.parse(password)
+        return bool(date)
     except ValueError:
         return False
 

@@ -22,6 +22,7 @@ The script requires Python v3.5.
 
 *Requirements:*
 - python-dateutil==2.7.2
+- six==1.11.0
 
 
 A path of file containing a text is the optional argument of the script. 
