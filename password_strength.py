@@ -96,7 +96,7 @@ def get_password_strength(password, blacklist):
         password,
         blacklist
     )
-    if password_strength < 1: password_strength = 1
+    password_strength = max(1, min(10, password_strength))
     return password_strength
 
 
