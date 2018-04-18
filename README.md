@@ -2,7 +2,7 @@
 
 This script evaluates a strength of password from 1 to 10 points.
 
-**Evaluation policies**
+**Evaluation rules**
 
 | Criterion | Mark |
 | --------- | ---- |
