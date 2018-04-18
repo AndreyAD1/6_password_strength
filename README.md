@@ -21,12 +21,7 @@ This script evaluates a strength of password from 1 to 10 points.
 The script requires Python v3.5.
 
 *Requirements:*
-- dateparser==0.7.0
 - python-dateutil==2.7.2
-- pytz==2018.4
-- regex==2018.2.21
-- six==1.11.0
-- tzlocal==1.5.1
 
 
 A path of file containing a text is the optional argument of the script. 
