@@ -1,7 +1,6 @@
 import argparse
 import re
 import getpass
-from dateutil import parser
 
 
 def get_console_arguments():
@@ -55,11 +54,9 @@ def check_common_numbers(password):
 
 
 def check_date(password):
-    try:
-        date = parser.parse(password)
-        return bool(date)
-    except ValueError:
-        return False
+    date_pattern = r'\d{1,4}[-,/.]\d{1,2}[-,/.]\d{1,4}|\d{1,4}[-,/.]\d{1,4}'
+    date = re.search(date_pattern, password)
+    return bool(date)
 
 
 def check_password_blacklist(password, blacklist):
@@ -118,10 +115,10 @@ def get_password_blacklist(file_path):
 
 if __name__ == '__main__':
     console_arguments = get_console_arguments()
-    password_blacklist_file = console_arguments.b
+    blacklist_file_path = console_arguments.b
     password_blacklist = None
-    if password_blacklist_file:
-        password_blacklist = get_password_blacklist(password_blacklist_file)
+    if blacklist_file_path:
+        password_blacklist = get_password_blacklist(blacklist_file_path)
         if password_blacklist is None:
             print(
                 'Can not find the file containing a password blacklist. '
