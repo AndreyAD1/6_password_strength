@@ -19,11 +19,6 @@ This script evaluates a strength of password from 1 to 10 points.
 # Quickstart
 
 The script requires Python v3.5.
-
-*Requirements:*
-- python-dateutil==2.7.2
-- six==1.11.0
-
 A path of file containing a text is the optional argument of the script. 
 
 To run script on Linux:
